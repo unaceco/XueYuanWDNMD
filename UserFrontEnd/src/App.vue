@@ -1,23 +1,36 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+		<Header />
+    <div class="main">
+      <router-view/>
+    </div>
+    <div class="footer">
+      WDNMD
+    </div>
   </div>
 </template>
 
 <script>
+import Header from '../src/components/Header'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+		Header
+	},
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  padding-bottom: 15px;
+	.main{
+		margin-top: 65px;
+  }
+  .footer {
+    text-align: center;
+    line-height: 50px;
+  }
 }
 </style>
+
