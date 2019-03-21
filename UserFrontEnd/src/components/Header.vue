@@ -9,7 +9,7 @@
 			<div class="menuDiv">
 				<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" router>
 					<el-menu-item index="/"><i class="el-icon-document"></i>广场</el-menu-item>
-					<el-menu-item index="3"><i class="el-icon-message"></i>消息</el-menu-item>
+					<el-menu-item index="/message"><i class="el-icon-message"></i>消息</el-menu-item>
 				</el-menu>
 			</div>
 			<!-- search -->
@@ -17,13 +17,17 @@
 				<el-input v-model="search" placeholder="请输入内容"  suffix-icon="el-icon-search"></el-input>
 			</div>
 			<!-- 登录 注册 -->
-			<div class="signDiv">
+			<div class="signDiv" v-if="!userInfo">
 				<div class="login" @click="loginDialog = true">
 					登录
 				</div>
 				<div class="regist">
 					注册
 				</div>
+			</div>
+			<!-- 已登录 -->
+			<div class="signDiv" v-else>
+				<img @click="redirectPersonalPage" class="avatar" src="https://admin-manage.oss-cn-hangzhou.aliyuncs.com/img/13nhnzsl3m.png" alt="">
 			</div>
 			<!-- options -->
 			<div class="optionsDiv">
@@ -48,7 +52,7 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="loginDialog = false">取 消</el-button>
-				<el-button type="primary" @click="loginDialog = false">确 定</el-button>
+				<el-button type="primary" @click="login">确 定</el-button>
 			</div>
 		</el-dialog>
 
@@ -66,7 +70,17 @@ export default {
 				password: ''
 			},
 			formLabelWidth: '80px',
+			userInfo: null
 		};
+	},
+	methods: {
+		login() {
+			this.userInfo = 'xxx'
+			this.loginDialog = false
+		},
+		redirectPersonalPage() {
+			this.$router.push('/personal')
+		}
 	}
 }
 </script>
@@ -114,6 +128,16 @@ export default {
 				border: 1px solid rgb(255, 59, 59);
 				color: rgb(255, 59, 59);
 				margin-left: 15px;
+			}
+
+			.avatar {
+				height: 50px;
+				width: 50px;
+				border-radius: 25px;
+				cursor: pointer;
+			}
+			.avatar:hover {
+				border: 1px solid #000;
 			}
 		}
 

@@ -25,7 +25,7 @@
 					<Article />
 				</div>
 				<div class="paintings" v-if="isActive==1">
-					painting content
+					<Paint />
 				</div>
 
 			</div>
@@ -34,10 +34,13 @@
 </template>
 
 <script>
-import Article from './ArticleComp'
+import Article from '@/components/ArticleComp'
+import Paint from '@/components/PaintComp'
+
 export default {
 	components: {
-		Article
+		Article,
+		Paint
 	},
 	data () {
 		return {

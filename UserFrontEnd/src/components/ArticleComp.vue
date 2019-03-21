@@ -2,7 +2,10 @@
 	<div class="article">
 		<!-- basic info -->
 		<div class="basicInfo">
-			<h2>xxxx</h2>
+			<div class="header">
+				<h2>xxxx</h2>
+				<img class="personal" src="../assets/personal.png" alt="">
+			</div>
 			<div class="content">
 				contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent
 			</div>
@@ -11,10 +14,6 @@
 				<span><i class="el-icon-star-on"></i>点赞</span>
 				<span><i class="el-icon-edit-outline"></i>评论</span>
 			</div>
-		</div>
-		<!-- right img -->
-		<div class="basicImg">
-			<img src="../../assets/logo.png" alt="">
 		</div>
 	</div>
 </template>
@@ -38,14 +37,24 @@ export default {
 	align-items: center;
 
 	.basicInfo {
-		width: 500px;
+		width: 740px;
 		display: flex;
 		flex-direction: column;
 		padding: 15px;
 
-		h2 {
-			font-size: 25px;
-			margin-bottom: 15px;
+		.header {
+			display: flex;
+			justify-content: space-between;
+			h2 {
+				font-size: 25px;
+				margin-bottom: 15px;
+			}
+			.personal {
+				height: 20px;
+				width: 20px;
+				margin-right: 15px;
+			}
+
 		}
 
 		.content {
@@ -65,17 +74,6 @@ export default {
 			}
 		}
 
-	}
-
-	.basicImg {
-		width: 200px;
-		height: 150px;
-		background-color: aliceblue;
-
-		img {
-			width: 200px;
-			height: 150px;
-		}
 	}
 
 }
