@@ -1,7 +1,7 @@
 <template>
 	<div class="paint">
 		<div class="paintImg">
-			<img src="https://free.modao.cc/uploads4/images/3049/30499514/v2_pm6q76.jpg" alt="">
+			<img @click="redirect" src="https://free.modao.cc/uploads4/images/3049/30499514/v2_pm6q76.jpg" alt="">
 			<div class="lock">
 				<img src="../assets/personal.png" alt="">
 			</div>
@@ -19,6 +19,11 @@ export default {
 	data () {
 		return {
 		};
+	},
+	methods: {
+		redirect() {
+			this.$router.push('/paint/2')
+		}
 	}
 }
 </script>
@@ -35,6 +40,9 @@ export default {
 		img {
 			height: 200px;
 			width: 200px;
+		}
+		img:hover {
+			cursor: pointer;
 		}
 
 		.lock {

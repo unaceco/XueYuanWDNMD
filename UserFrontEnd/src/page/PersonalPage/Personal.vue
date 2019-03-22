@@ -25,12 +25,12 @@
 			<el-tabs v-model="tabsActiveName" @tab-click="handleClick">
 				<el-tab-pane label="我的文章" name="first">
 					<div class="tabArticle">
-						<Article v-for="i in 4" />
+						<Article v-for="i in 4" :key="i"/>
 					</div>
 				</el-tab-pane>
 				<el-tab-pane label="我的画板" name="second">
 					<div class="tabPaint">
-						<Paint v-for="i in 4" />
+						<Paint v-for="i in 4" :key="i" />
 					</div>
 				</el-tab-pane>
 				<el-tab-pane label="我的喜欢" name="third">
@@ -38,12 +38,12 @@
 						<el-tabs type="card">
 							<el-tab-pane label="文章">
 								<div class="tabArticle">
-									<Article v-for="i in 4" />
+									<Article v-for="i in 4" :key="i" />
 								</div>
 							</el-tab-pane>
 							<el-tab-pane label="图片">
 								<div class="tabPaint">
-									<Paint v-for="i in 4" />
+									<Paint v-for="i in 4" :key="i"/>
 								</div>
 							</el-tab-pane>
 						</el-tabs>
@@ -54,12 +54,12 @@
 						<el-tabs type="card">
 							<el-tab-pane label="文章">
 								<div class="tabArticle">
-									<Article v-for="i in 4" />
+									<Article v-for="i in 4" :key="i"/>
 								</div>
 							</el-tab-pane>
 							<el-tab-pane label="图片">
 								<div class="tabPaint">
-									<Paint v-for="i in 4" />
+									<Paint v-for="i in 4" :key="i"/>
 								</div>
 							</el-tab-pane>
 						</el-tabs>

@@ -3,7 +3,7 @@
 		<!-- basic info -->
 		<div class="basicInfo">
 			<div class="header">
-				<h2>xxxx</h2>
+				<h2 @click="redirect">xxxx</h2>
 				<img class="personal" src="../assets/personal.png" alt="">
 			</div>
 			<div class="content">
@@ -23,6 +23,11 @@ export default {
 	data () {
 		return {
 		};
+	},
+	methods: {
+		redirect() {
+			this.$router.push('/article/1')
+		}
 	}
 }
 </script>
@@ -48,6 +53,11 @@ export default {
 			h2 {
 				font-size: 25px;
 				margin-bottom: 15px;
+			}
+			h2:hover {
+				cursor: pointer;
+				color:cadetblue;
+				border-bottom: 1px solid cadetblue;
 			}
 			.personal {
 				height: 20px;
