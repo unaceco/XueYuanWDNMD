@@ -1,11 +1,9 @@
 <template>
-	<div class="likeTmp">
+	<div class="follow">
 		<div class="avatar">
 			<img src="../../assets/logo.png" alt="">
 		</div>
-		<div class="content">
-			xxxx 赞了你
-		</div>
+		<el-button size="mini" type="primary" plain>关注</el-button>
 	</div>
 </template>
 
@@ -19,17 +17,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.likeTmp {
-	padding: 25px;
+.follow {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
+	padding: 15px;
+	border: 1px solid #e5e5e5;
+	width: 100px;
+	margin: 15px;
 
 	.avatar, .avatar img {
 		height: 30px;
 		width: 30px;
-	}
-	.content {
-		margin-left: 15px;
 	}
 
 }

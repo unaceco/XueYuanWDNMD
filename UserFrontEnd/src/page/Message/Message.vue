@@ -15,11 +15,17 @@
 					<span slot="label"><i class="el-icon-star-off"></i> 赞</span>
 					<div class="header">
 						收到的赞
+						<div v-for="i in 4" :key="i">
+							<Like />
+						</div>
 					</div>
 				</el-tab-pane>
 				<el-tab-pane>
 					<span slot="label"><i class="el-icon-view"></i> 关注</span>
 					关注
+					<div class="followDiv" >
+						<Follow v-for="i in 10" :key="i" />
+					</div>
 				</el-tab-pane>
 			</el-tabs>
 		</div>
@@ -28,10 +34,14 @@
 
 <script>
 import Comment from './Comment'
+import Like from './Like'
+import Follow from './Follow'
 
 export default {
 	components: {
-		Comment
+		Comment,
+		Like,
+		Follow
 	},
 	data () {
 		return {
@@ -53,6 +63,12 @@ export default {
 			height: 80px;
 		}
 
+		.followDiv {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
 	}
+
 }
 </style>
