@@ -38,6 +38,9 @@ module.exports = app => {
 		LikeModel.belongsTo(app.model.ArticleModel, {
       foreignKey: 'article_id'
     })
+		LikeModel.belongsTo(app.model.PaintModel, {
+      foreignKey: 'paint_id'
+    })
 	}
 
   return LikeModel

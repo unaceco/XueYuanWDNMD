@@ -22,6 +22,10 @@ module.exports = app => {
       type: INTEGER(20),
       allowNull: false,
     },
+    content: {
+      type: STRING(100),
+      allowNull: false,
+    },
   }, {
     created_at: 'created_at',
     updated_at: 'updated_at',
