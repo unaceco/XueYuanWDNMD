@@ -21,20 +21,29 @@
 				<div class="login" @click="loginDialog = true">
 					登录
 				</div>
-				<div class="regist">
+				<div class="regist" @click="signupDialog = true">
 					注册
 				</div>
 			</div>
 			<!-- 已登录 -->
 			<div class="signDiv" v-else>
-				<img @click="redirectPersonalPage" class="avatar" src="https://admin-manage.oss-cn-hangzhou.aliyuncs.com/img/13nhnzsl3m.png" alt="">
+				<el-popover
+					placement="bottom"
+					width="50"
+					trigger="hover">
+					<div style="text-align:center;">
+						<el-button type="primary" plain @click="logout">退出</el-button>
+					</div>
+
+					<img slot="reference" @click="redirectPersonalPage" class="avatar" :src="userInfo.avatar" alt="">
+				</el-popover>
 			</div>
 			<!-- options -->
 			<div class="optionsDiv">
 				<div class="paint">
 					绘画
 				</div>
-				<div class="write">
+				<div class="write" @click="redirectToWrite">
 					写文章
 				</div>
 			</div>
@@ -47,7 +56,7 @@
 					<el-input v-model="loginForm.account" autocomplete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="密码" :label-width="formLabelWidth">
-					<el-input v-model="loginForm.password" autocomplete="off"></el-input>
+					<el-input type="password" v-model="loginForm.password" autocomplete="off"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -56,11 +65,41 @@
 			</div>
 		</el-dialog>
 
+		<!-- signup dialog -->
+		<el-dialog title="注册" :visible.sync="signupDialog" :append-to-body="true">
+			<el-form :model="signupForm">
+				<el-form-item label="用户名" :label-width="formLabelWidth">
+					<el-input v-model="signupForm.account" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="密码" :label-width="formLabelWidth">
+					<el-input type="password" v-model="signupForm.password" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="昵称" :label-width="formLabelWidth">
+					<el-input v-model="signupForm.nickname" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="头像" :label-width="formLabelWidth">
+					<Upload 
+						v-on:getImgUrl="getImgUrl"
+					/>
+				</el-form-item>
+				
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="signupDialog = false">取 消</el-button>
+				<el-button type="primary" @click="signup">确 定</el-button>
+			</div>
+		</el-dialog>
+
 	</div>
 </template>
 
 <script>
+import Upload from './../components/Upload'
+
 export default {
+	components: {
+		Upload
+	},
 	data () {
 		return {
 			search: '',
@@ -69,17 +108,82 @@ export default {
 				account: '',
 				password: ''
 			},
+			signupDialog: false,
+			signupForm: {
+				account: '',
+				password: '',
+				nickname: '',
+			},
 			formLabelWidth: '80px',
-			userInfo: null
+			userInfo: null,
+			signupImgUrl: '',
 		};
 	},
+	created () {
+		this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+	},
 	methods: {
-		login() {
-			this.userInfo = 'xxx'
+		// 登录
+		async login() {
 			this.loginDialog = false
+			if (this.loginForm.account == '' || this.loginForm.password == '') {
+				this.$message.error('不能为空')
+				return
+			}
+			const result = await this.$request.post('/api/user/login', {
+				useraccount: this.loginForm.account,
+				password: this.loginForm.password
+			})
+			if (result.data.success) {
+				this.$message.success(result.data.msg)
+				this.userInfo = result.data.data.user
+				sessionStorage.setItem('userInfo', JSON.stringify(result.data.data.user))
+			}else {
+				this.$message.error(result.data.msg)
+			}
 		},
+		// 注册
+		async signup() {
+			if (this.signupForm.account == '' || this.signupForm.password == '' || this.signupForm.nickname == '' || this.signupImgUrl == '') {
+				this.$message.error('不能为空')
+				return
+			}
+			this.signupDialog = false
+			const result = await this.$request.post('/api/user/register', {
+				useraccount: this.signupForm.account,
+      	password: this.signupForm.password,
+	      nickname: this.signupForm.nickname,
+  	    avatar: this.signupImgUrl,
+			})
+
+			if (result.data.success) {
+				this.$message.success(result.data.msg)
+			}else {
+				this.$message.error(result.data.msg)
+			}
+		},
+		// 退出
+		async logout() {
+			const result = await this.$request('/api/user/logout')
+			if (result.data.success) {
+				sessionStorage.removeItem('userInfo')
+				this.userInfo = null
+				this.$message.success(result.data.msg)
+			}else {
+				this.$message.error(result.data.msg)
+			}
+		},
+		// 获取上传到oss的图片链接
+		getImgUrl(imgUrl) {
+			this.signupImgUrl = imgUrl
+		},
+		// 跳转
 		redirectPersonalPage() {
 			this.$router.push('/personal')
+		},
+		// 
+		redirectToWrite() {
+			this.$router.push('/writeArticle')
 		}
 	}
 }

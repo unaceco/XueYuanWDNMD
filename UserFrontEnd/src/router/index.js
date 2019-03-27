@@ -6,6 +6,7 @@ import Personal from '@/page/PersonalPage/Personal'
 import Message from '@/page/Message/Message'
 import ArticleInfo from '@/page/ArticleInfo/ArticleInfo'
 import PaintInfo from '@/page/PaintInfo/PaintInfo'
+import WriteArticle from '@/page/WriteArticle/WriteArticle'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/paint/:paintId',
       name: 'PaintInfo',
       component: PaintInfo
+    },
+    {
+      path: '/writeArticle',
+      name: 'WriteArticle',
+      component: WriteArticle
     }
   ]
 })

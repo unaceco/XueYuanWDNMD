@@ -35,7 +35,7 @@
 			// 获取服务器端生成的签名
 			async getToken() {
 				const result = await this.$request('/api/common/uploadToken')
-				Object.assign(this.ossConfig, result.data)
+				Object.assign(this.ossConfig, result.data.data)
 			},
 			// 生成随机字符串
 			randomString() {
