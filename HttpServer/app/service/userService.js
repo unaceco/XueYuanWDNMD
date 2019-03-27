@@ -38,42 +38,21 @@ class UserService extends Service {
     const user =  await this.UserModel.findUser(useraccount) || null
     
     if (user && await this.ctx.compare(password, user.get('password'))) {
-      const role = user.get('role')
 
       this.ctx.session.user = {
         userID: user.get('id'),
-        isStreamer: role === 2,
-        isAdmin: role === 3,
       }
-      let roleName = ''
-      switch (role) {
-        case -1:
-          roleName = '黑名单用户'
-          break;
-        case 1:
-          roleName = '普通用户'
-          break;
-        case 2:
-          roleName = '主播'
-          break;
-        case 3:
-          roleName = '管理员'
-          break;
-        default:
-          break;
-      }
+
 
       return {
         success: true,
         msg: '登录成功',
         data: {
           user: {
+            useraccount: user.get('useraccount'),
             nickname: user.get('nickname'),
             avatar: user.get('avatar'),
-            role,
-            roleName,
             id: user.get('id'),
-            balance: user.get('balance')
           },
         },
       }

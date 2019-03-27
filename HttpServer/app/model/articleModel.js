@@ -9,6 +9,7 @@ module.exports = app => {
   /**
    * @desc article 文章表
    * articleId: id
+   * personal  0 不私密  1 私密
    */
   const ArticleModel = app.model.define('article', {
     articleId: {

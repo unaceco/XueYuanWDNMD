@@ -29,4 +29,9 @@ module.exports = app => {
   // 修改个人信息
   router.put('/api/user/modifyInfo', controller.api.userController.modifyInfo)
 
+
+  // 文章相关接口
+  router.post('/api/article/push', controller.api.articleController.writeArticle)
+
+
 }
