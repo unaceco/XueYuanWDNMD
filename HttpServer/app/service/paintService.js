@@ -2,29 +2,29 @@
 
 const Service = require('egg').Service
 
-class ArticleService extends Service {
+class PaintService extends Service {
   constructor(ctx) {
     super(ctx)
     this.ctx = ctx
     this.UserModel = ctx.model.UserModel
-    this.ArticleModel = ctx.model.ArticleModel
+    this.PaintModel = ctx.model.PaintModel
 	}
 	
-	// 发表文章
-	async writeArticle(title, content, personal, user_id) {
-		const result = await this.ArticleModel.create({
-			title, content, personal, user_id
+	// 发表
+	async publishPaint( title, paintUrl, personal, user_id ) {
+		const result = await this.PaintModel.create({
+			title, paintUrl, personal, user_id 
 		})
 
 		return {
 			success: true,
-			msg: '发表成功',
+			msg: '发表paint成功',
 			data: result
 		}	
 	}
 
-	async getAllArticles() {
-		const result = await this.ArticleModel.findAll({
+	async getAllpaints() {
+		const result = await this.PaintModel.findAll({
 			where: {
 				personal: {
 					$ne: 1
@@ -33,7 +33,7 @@ class ArticleService extends Service {
 			include: [{
 				model: this.UserModel,
 				required: false 
-      }]
+			}]
 		})
 
 		return {
@@ -43,10 +43,10 @@ class ArticleService extends Service {
 		}
 	}
 
-	async getArticleById(articleId) {
-		const result = await this.ArticleModel.findOne({
+	async getPaintById(paintId) {
+		const result = await this.PaintModel.findOne({
 			where: {
-				articleId
+				paintId
 			},
 			include: [{
 				model: this.UserModel,
@@ -57,12 +57,10 @@ class ArticleService extends Service {
 		return {
 			success: true,
 			data: result,
-			msg: `查询articleId${articleId}成功`
+			msg: `查询paintId${paintId}成功`
 		}
-
 	}
-
 
 }
 
-module.exports = ArticleService
+module.exports = PaintService

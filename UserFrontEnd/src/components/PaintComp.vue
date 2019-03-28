@@ -1,13 +1,13 @@
 <template>
 	<div class="paint">
 		<div class="paintImg">
-			<img @click="redirect" src="https://free.modao.cc/uploads4/images/3049/30499514/v2_pm6q76.jpg" alt="">
-			<div class="lock">
+			<img @click="redirect" :src="info.paintUrl" alt="">
+			<div class="lock" v-if="info.personal == 1">
 				<img src="../assets/personal.png" alt="">
 			</div>
 		</div>
 		<div class="options">
-				<span>作者</span>
+				<span>作者: {{info.user.nickname}}</span>
 				<span><i class="el-icon-star-on"></i>点赞</span>
 				<span><i class="el-icon-edit-outline"></i>评论</span>
 		</div>
@@ -16,13 +16,19 @@
 
 <script>
 export default {
+	props: {
+		info: Object
+	},
 	data () {
 		return {
 		};
 	},
+	created () {
+
+	},
 	methods: {
 		redirect() {
-			this.$router.push('/paint/2')
+			this.$router.push('/paint/'+this.info.paintId)
 		}
 	}
 }
@@ -64,7 +70,7 @@ export default {
 		margin-left: 5px;
 		line-height: 30px;
 		height: 30px;
-		font-size: 14px;
+		font-size: 13px;
 		span {
 			margin-right: 15px;
 		}

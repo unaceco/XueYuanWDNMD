@@ -5,10 +5,10 @@
 		<div class="header">
 			<div class="userInfo">
 				<div class="avatar">
-					<img src="https://admin-manage.oss-cn-hangzhou.aliyuncs.com/img/13nhnzsl3m.png" alt="">
+					<img :src="info.user.avatar" alt="">
 				</div>
 				<div>
-					name
+					{{info.user.nickname}}
 				</div>
 				<div class="options">
 					<el-button type="primary" size="mini" icon="el-icon-circle-plus-outline">关注</el-button>
@@ -18,7 +18,7 @@
 
 		<!-- content -->
 		<div class="content">
-			<img src="https://free.modao.cc/uploads4/images/3049/30499514/v2_pm6q76.jpg" alt="">
+			<img :src="info.paintUrl" alt="">
 		</div>
 
 		<!-- options -->
@@ -74,8 +74,24 @@ export default {
 	},
 	data () {
 		return {
-			writeComments: ''
+			writeComments: '',
+			info: {
+				user: {
+					avatart: ''
+				}
+			}
 		};
+	},
+	async created () {
+		await this.getInfoById()
+	},
+	methods: {
+		async getInfoById() {
+			const result = await this.$request.post('/api/article/paintId', {
+				paintId: this.$route.params.paintId
+			})
+			this.info = result.data.data
+		}
 	}
 }
 </script>

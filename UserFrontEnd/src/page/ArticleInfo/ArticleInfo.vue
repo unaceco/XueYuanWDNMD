@@ -1,13 +1,13 @@
 <template>
 	<div class="articleInfo">
 		<div class="header">
-			<h2>title</h2>
+			<h2>{{info.title}}</h2>
 			<div class="userInfo">
 				<div class="avatar">
-					<img src="https://admin-manage.oss-cn-hangzhou.aliyuncs.com/img/13nhnzsl3m.png" alt="">
+					<img :src="info.user.avatar" alt="">
 				</div>
 				<div>
-					name
+					{{info.user.nickname}}
 				</div>
 				<div class="options">
 					<el-button type="primary" size="mini" icon="el-icon-circle-plus-outline">关注</el-button>
@@ -18,6 +18,8 @@
 		<!-- content -->
 		<div class="content">
 			<span> 文章详情  id: {{$route.params.articleId}}</span>
+			<div v-html="info.content">
+			</div>
 		</div>
 
 		<!-- options -->
@@ -73,8 +75,24 @@ export default {
 	},
 	data () {
 		return {
-			writeComments: ''
+			writeComments: '',
+			info: {
+				user: {
+					avatar: ''
+				}
+			}
 		};
+	},
+	async created () {
+		await this.getInfoById()
+	},
+	methods: {
+		async getInfoById() {
+			const result = await this.$request.post('/api/article/articleId', {
+				articleId: this.$route.params.articleId
+			})
+			this.info = result.data.data
+		}
 	}
 }
 </script>

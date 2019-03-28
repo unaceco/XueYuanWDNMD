@@ -3,14 +3,13 @@
 		<!-- basic info -->
 		<div class="basicInfo">
 			<div class="header">
-				<h2 @click="redirect">xxxx</h2>
-				<img class="personal" src="../assets/personal.png" alt="">
+				<h2 @click="redirect">{{info.title}}</h2>
+				<img  v-if="info.personal == 1" class="personal" src="../assets/personal.png" alt="">
 			</div>
-			<div class="content">
-				contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent
+			<div class="content" v-html="info.content">
 			</div>
 			<div class="options">
-				<span>作者</span>
+				<span>作者: {{info.user.nickname}}</span>
 				<span><i class="el-icon-star-on"></i>点赞</span>
 				<span><i class="el-icon-edit-outline"></i>评论</span>
 			</div>
@@ -20,13 +19,19 @@
 
 <script>
 export default {
+	props: {
+		info: Object
+	},
 	data () {
 		return {
 		};
 	},
+	created () {
+
+	},
 	methods: {
 		redirect() {
-			this.$router.push('/article/1')
+			this.$router.push('/article/'+this.info.articleId)
 		}
 	}
 }
@@ -35,7 +40,7 @@ export default {
 <style lang="scss" scoped>
 .article {
 	border-bottom: 1px solid #e5e5e5;
-	height: 200px;
+	// height: 200px;
 
 	display: flex;
 	justify-content: space-between;
@@ -78,7 +83,7 @@ export default {
 		}
 
 		.options {
-			font-size: 14px;
+			font-size: 13px;
 			span {
 				margin-right: 15px;
 			}

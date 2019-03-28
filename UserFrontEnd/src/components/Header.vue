@@ -40,7 +40,7 @@
 			</div>
 			<!-- options -->
 			<div class="optionsDiv">
-				<div class="paint">
+				<div class="paint" @click="redirectPaint">
 					绘画
 				</div>
 				<div class="write" @click="redirectToWrite">
@@ -184,6 +184,9 @@ export default {
 		// 
 		redirectToWrite() {
 			this.$router.push('/writeArticle')
+		},
+		redirectPaint() {
+			this.$router.push('/publishPaint')
 		}
 	}
 }

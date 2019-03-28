@@ -22,10 +22,18 @@
 			<!-- content -->
 			<div class="tabsContent">
 				<div class="articles" v-if="isActive==0">
-					<Article />
+					<div v-for="(item, index) in articleList" :key="index">
+						<Article 
+							:info="articleList[index]"
+						/>
+					</div>
 				</div>
 				<div class="paintings" v-if="isActive==1">
-					<Paint />
+					<div v-for="(item, index) in paintList" :key="index">
+						<Paint 
+							:info="paintList[index]"
+						/>
+					</div>
 				</div>
 
 			</div>
@@ -46,10 +54,23 @@ export default {
 		return {
 			tabActive: 'first',
 			isActive: 0,
+			articleList: [],
+			paintList: []
 		};
 	},
+	async created () {
+		await this.getAllArticles()
+		await this.getAllPaints()
+	},
 	methods: {
-
+		async getAllArticles() {
+			const result = await this.$request('/api/article')
+			this.articleList = result.data.data
+		},
+		async getAllPaints() {
+			const result = await this.$request('/api/paint')
+			this.paintList = result.data.data
+		}
 	}
 }
 </script>
@@ -111,7 +132,7 @@ export default {
 		}
 
 		.tabsContent {
-			height: 500px;
+			// height: 500px;
 			// background-color: #99a9bf;
 			border: 1px solid #e5e5e5;
 			border-top: none;

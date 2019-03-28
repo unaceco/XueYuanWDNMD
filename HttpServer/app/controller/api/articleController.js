@@ -15,6 +15,17 @@ class ArticleController extends Controller {
 		this.ctx.body = response
 	}
 
+	async getAllArticles() {
+		const response = await this.articleService.getAllArticles()
+		this.ctx.body = response
+	}
+
+	async getArticleById() {
+		const { articleId } = this.ctx.request.body
+		const response = await this.articleService.getArticleById(articleId)
+		this.ctx.body = response
+	}
+
 
 }
 

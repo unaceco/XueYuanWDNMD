@@ -30,8 +30,23 @@ module.exports = app => {
   router.put('/api/user/modifyInfo', controller.api.userController.modifyInfo)
 
 
-  // 文章相关接口
+  // ------------ 文章相关接口
+  // 发布
   router.post('/api/article/push', controller.api.articleController.writeArticle)
 
+  // find all
+  router.get('/api/article', controller.api.articleController.getAllArticles)
 
+  // find by id
+  router.post('/api/article/articleId', controller.api.articleController.getArticleById)
+
+  // ------------ 绘画相关接口
+  // 发布
+  router.post('/api/paint/push', controller.api.paintController.publishPaint)
+
+  // find all
+  router.get('/api/paint', controller.api.paintController.getAllPaints)
+
+  // find by id
+  router.post('/api/article/paintId', controller.api.paintController.getPaintById)
 }
