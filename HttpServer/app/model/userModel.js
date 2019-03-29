@@ -99,9 +99,18 @@ module.exports = app => {
     UserModel.hasMany(app.model.LikeModel, {
       foreignKey: 'to_user_id'
     })
+
+    UserModel.hasMany(app.model.CollectModel, {
+      foreignKey: 'from_user_id'
+    })
+    UserModel.hasMany(app.model.CollectModel, {
+      foreignKey: 'to_user_id'
+    })
+
     UserModel.hasMany(app.model.ArticleModel, {
       foreignKey: 'user_id'
     })
+
     UserModel.hasMany(app.model.FollowModel, {
       foreignKey: 'from_user_id'
     })

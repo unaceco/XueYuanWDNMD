@@ -44,7 +44,7 @@ export default {
 				personal: this.isPersonal ? 1 : 0, 
 				user_id: JSON.parse(sessionStorage.getItem('userInfo')).id
 			})
-			if (result.success) {
+			if (result.data.success) {
 				this.$message.success('发表成功')
 				this.$router.push('/')
 			}

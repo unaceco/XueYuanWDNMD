@@ -25,6 +25,7 @@
 					<div v-for="(item, index) in articleList" :key="index">
 						<Article 
 							:info="articleList[index]"
+							v-on:reloadData="reloadData"
 						/>
 					</div>
 				</div>
@@ -32,6 +33,7 @@
 					<div v-for="(item, index) in paintList" :key="index">
 						<Paint 
 							:info="paintList[index]"
+							v-on:reloadData="reloadData"
 						/>
 					</div>
 				</div>
@@ -59,8 +61,7 @@ export default {
 		};
 	},
 	async created () {
-		await this.getAllArticles()
-		await this.getAllPaints()
+		await this.reloadData()
 	},
 	methods: {
 		async getAllArticles() {
@@ -70,6 +71,10 @@ export default {
 		async getAllPaints() {
 			const result = await this.$request('/api/paint')
 			this.paintList = result.data.data
+		},
+		async reloadData() {
+			await this.getAllArticles()
+			await this.getAllPaints()
 		}
 	}
 }
@@ -137,6 +142,11 @@ export default {
 			border: 1px solid #e5e5e5;
 			border-top: none;
 			padding: 15px;
+
+			.paintings {
+				display: flex;
+				flex-wrap: wrap;
+			}
 		}
 	}
 

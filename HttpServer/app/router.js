@@ -23,6 +23,9 @@ module.exports = app => {
   // 退出
   router.get('/api/user/logout', controller.api.userController.logout)
 
+  // get userinfo by user id
+  router.post('/api/user/findById', controller.api.userController.getUserInfoById)
+  
   // 修改密码
   router.post('/api/user/changePwd', controller.api.userController.changePwd)
 
@@ -49,4 +52,28 @@ module.exports = app => {
 
   // find by id
   router.post('/api/article/paintId', controller.api.paintController.getPaintById)
+
+  // ------------ 点赞相关
+  // change like status
+  router.post('/api/like', controller.api.likeController.changeLikeStatus)
+
+  // ------------ 收藏相关
+  // change collect status
+  router.post('/api/collect', controller.api.collectController.changeCollectStatus)
+
+
+  // ------------ 收藏相关
+  // get follow status
+  router.post('/api/follow/find', controller.api.followController.getFollowStatus)
+
+  // change follow status
+  router.post('/api/follow/change', controller.api.followController.changeFollowStatus)
+  
+  // ------------ 评论相关
+  // get all comments
+  router.post('/api/comments/all', controller.api.commentController.findCommentsById)
+
+  // write comments
+  router.post('/api/comments/write', controller.api.commentController.writeComments)
+
 }

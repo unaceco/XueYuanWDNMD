@@ -45,7 +45,9 @@ module.exports = app => {
 		PaintModel.hasMany(app.model.CommentModel, {
       foreignKey: 'paint_id'
     })
-
+		PaintModel.hasMany(app.model.CollectModel, {
+      foreignKey: 'paint_id'
+    })
 	}
 
   return PaintModel

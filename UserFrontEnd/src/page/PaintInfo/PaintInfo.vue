@@ -1,7 +1,5 @@
 <template>
 	<div class="articleInfo">
-		<span> 图片详情  id: {{$route.params.paintId}}</span>
-
 		<div class="header">
 			<div class="userInfo">
 				<div class="avatar">
@@ -11,7 +9,8 @@
 					{{info.user.nickname}}
 				</div>
 				<div class="options">
-					<el-button type="primary" size="mini" icon="el-icon-circle-plus-outline">关注</el-button>
+					<el-button v-if="isFollow" @click="changeFollowStatus" type="primary" size="mini" >已关注</el-button>
+					<el-button v-else @click="changeFollowStatus" type="primary" size="mini" icon="el-icon-circle-plus-outline">关注</el-button>
 				</div>
 			</div>
 		</div>
@@ -23,8 +22,10 @@
 
 		<!-- options -->
 		<div class="uOptions">
-			<el-button type="primary" icon="el-icon-bell">喜欢</el-button>
-			<el-button type="primary" icon="el-icon-tickets">收藏</el-button>
+			<el-button  v-if="isLiked" @click="changeLikeStatus" type="primary" icon="el-icon-star-on">已喜欢{{info.likes.length}}</el-button>
+			<el-button v-else @click="changeLikeStatus" type="primary" icon="el-icon-star-off">喜欢{{info.likes.length}}</el-button>
+			<el-button v-if="isCollect" @click="changeCollectStatus" type="primary" icon="el-icon-tickets">已收藏</el-button>
+			<el-button v-else @click="changeCollectStatus" type="primary" icon="el-icon-tickets">收藏</el-button>
 		</div>
 
 		<!-- write comments -->
@@ -32,24 +33,9 @@
 			<div class="myAvatar">
 				<img src="https://admin-manage.oss-cn-hangzhou.aliyuncs.com/img/13nhnzsl3m.png" alt="">
 			</div>
-			<el-input
-				type="textarea"
-				:rows="2"
-				placeholder="请输入内容"
-				v-model="writeComments">
+			<el-input placeholder="请输入内容" v-model="writeComments" class="input-with-select">
+				<el-button slot="append" @click="writeComment">发送</el-button>
 			</el-input>
-		</div>
-
-		<!-- count -->
-		<div class="count">
-			<div class="like">
-				<i class="el-icon-bell"></i>
-				喜欢
-			</div>
-			<div class="comments">
-				<i class="el-icon-edit"></i>
-				评论
-			</div>
 		</div>
 
 		<!-- 分割线 -->
@@ -57,8 +43,12 @@
 
 		<!-- comments list -->
 		<div class="commentList">
-			<div v-for="i in 4" :key="i">
-				<commnet />
+			<div v-for="(item, index) in commentsList" :key="index">
+				<commnet 
+					:info="commentsList[index]"
+					:type="2"
+					v-on:updateComment="updateComment"
+				/>
 			</div>
 		</div>
 
@@ -77,13 +67,40 @@ export default {
 			writeComments: '',
 			info: {
 				user: {
-					avatart: ''
-				}
-			}
+					avatar: ''
+				},
+				likes: [],
+				collects: [],
+			},
+			followInfo: {},
+			commentsList: [],
 		};
+	},
+	computed: {
+		isLiked() {
+			const isLikedStatus = this.info.likes.filter(x => x.from_user_id == JSON.parse(sessionStorage.getItem('userInfo')).id)
+			if (isLikedStatus.length == 0) {
+				return false
+			}else {
+				return true
+			}
+		},
+		isCollect() {
+			const isCollectStatus = this.info.collects.filter(x => x.from_user_id == JSON.parse(sessionStorage.getItem('userInfo')).id)
+			if (isCollectStatus.length == 0) {
+				return false
+			}else {
+				return true
+			}
+		},
+		isFollow() {
+			return this.followInfo
+		}
 	},
 	async created () {
 		await this.getInfoById()
+		await this.getFollowStatus()
+		await this.getAllComments()
 	},
 	methods: {
 		async getInfoById() {
@@ -91,6 +108,76 @@ export default {
 				paintId: this.$route.params.paintId
 			})
 			this.info = result.data.data
+		},
+		async changeLikeStatus() {
+			const result = await this.$request.post('/api/like', {
+				from_user_id: JSON.parse(sessionStorage.getItem('userInfo')).id, 
+				to_user_id: this.info.user.id, 
+				type: 2, 
+				info_id: this.info.paintId
+			})
+			if (result.data.success) {
+				await this.getInfoById()
+			}
+		},
+		async changeCollectStatus() {
+			const result = await this.$request.post('/api/collect', {
+				from_user_id: JSON.parse(sessionStorage.getItem('userInfo')).id, 
+				to_user_id: this.info.user.id, 
+				type: 2, 
+				info_id: this.info.paintId
+			})
+			if (result.data.success) {
+				await this.getInfoById()
+			}
+		},
+		async getFollowStatus() {
+			const result = await this.$request.post('/api/follow/find', {
+				from_user_id: JSON.parse(sessionStorage.getItem('userInfo')).id, 
+				to_user_id: this.info.user.id, 
+			})
+			if (result.data.success) {
+				this.followInfo = result.data.data
+			}
+		},
+		async changeFollowStatus() {
+			const result = await this.$request.post('/api/follow/change', {
+				from_user_id: JSON.parse(sessionStorage.getItem('userInfo')).id, 
+				to_user_id: this.info.user.id, 
+			})
+			if (result.data.success) {
+				this.$message.success(result.data.msg)
+				await this.getFollowStatus()
+			}
+		},
+		async getAllComments() {
+			const result = await this.$request.post('/api/comments/all', {
+				type: 2,
+				info_id: this.info.paintId
+			})
+			if (result.data.success) {
+				this.commentsList = result.data.data
+			}
+		},
+		async writeComment() {
+			if (this.writeComments == '') {
+				this.$message.error('不能为空')
+				return
+			}
+			const result = await this.$request.post('/api/comments/write', {
+				content: this.writeComments, 
+				type: 2,
+				info_id: this.info.paintId,
+				from_user_id: JSON.parse(sessionStorage.getItem('userInfo')).id, 
+				to_user_id: this.info.user.id,
+			})
+
+			if (result.data.success) {
+				await this.getAllComments()
+			}
+		},
+		async updateComment() {
+			await this.getAllComments()
 		}
 	}
 }
@@ -169,3 +256,4 @@ export default {
 
 }
 </style>
+

@@ -63,6 +63,21 @@ class UserService extends Service {
     }
   }
 
+  async getUserInfoById(id) {
+    const data = await this.UserModel.findOne({
+      where: {
+        id
+      }
+    })
+
+    return {
+      success: true,
+      msg: '查找用户成功',
+      data
+    }
+
+  }
+
   // 
   async modifyInfo(userID, nickname, avatar) {
     const result = this.UserModel.update({

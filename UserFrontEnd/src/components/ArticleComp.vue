@@ -10,7 +10,8 @@
 			</div>
 			<div class="options">
 				<span>作者: {{info.user.nickname}}</span>
-				<span><i class="el-icon-star-on"></i>点赞</span>
+				<span v-if="isLiked" class="like" @click="changeLikeStatus"><i class="el-icon-star-on"></i>已喜欢{{info.likes.length}}</span>
+				<span v-else class="like" @click="changeLikeStatus"><i class="el-icon-star-off"></i>喜欢{{info.likes.length}}</span>
 				<span><i class="el-icon-edit-outline"></i>评论</span>
 			</div>
 		</div>
@@ -27,11 +28,38 @@ export default {
 		};
 	},
 	created () {
-
+	
+	},
+	computed: {
+		isLiked() {
+			if (!JSON.parse(sessionStorage.getItem('userInfo'))) {
+				return false
+			}
+			const isLikedStatus = this.info.likes.filter(x => x.from_user_id == JSON.parse(sessionStorage.getItem('userInfo')).id)
+			if (isLikedStatus.length == 0) {
+				return false
+			}else {
+				return true
+			}
+		}
 	},
 	methods: {
 		redirect() {
 			this.$router.push('/article/'+this.info.articleId)
+		},
+		async changeLikeStatus() {
+			if (!JSON.parse(sessionStorage.getItem('userInfo'))) {
+				return false
+			}
+			const result = await this.$request.post('/api/like', {
+				from_user_id: JSON.parse(sessionStorage.getItem('userInfo')).id, 
+				to_user_id: this.info.user.id, 
+				type: 1, 
+				info_id: this.info.articleId
+			})
+			if (result.data.success) {
+				this.$emit('reloadData')
+			}
 		}
 	}
 }
@@ -86,6 +114,12 @@ export default {
 			font-size: 13px;
 			span {
 				margin-right: 15px;
+			}
+			.like {
+				cursor: pointer;
+			}
+			.like:hover {
+				color: aquamarine;
 			}
 		}
 

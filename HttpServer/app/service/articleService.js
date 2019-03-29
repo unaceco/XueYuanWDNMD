@@ -7,7 +7,9 @@ class ArticleService extends Service {
     super(ctx)
     this.ctx = ctx
     this.UserModel = ctx.model.UserModel
-    this.ArticleModel = ctx.model.ArticleModel
+		this.ArticleModel = ctx.model.ArticleModel
+		this.LikeModel = ctx.model.LikeModel
+    this.CollectModel = ctx.model.CollectModel
 	}
 	
 	// 发表文章
@@ -33,7 +35,14 @@ class ArticleService extends Service {
 			include: [{
 				model: this.UserModel,
 				required: false 
-      }]
+      },{
+				model: this.LikeModel,
+				required: false
+			},{
+				model: this.CollectModel,
+				required: false
+			}],
+			order: [['articleId', 'ASC']],
 		})
 
 		return {
@@ -51,7 +60,13 @@ class ArticleService extends Service {
 			include: [{
 				model: this.UserModel,
 				required: false 
-      }]
+      },{
+				model: this.LikeModel,
+				required: false
+			},{
+				model: this.CollectModel,
+				required: false
+			}]
 		})
 
 		return {

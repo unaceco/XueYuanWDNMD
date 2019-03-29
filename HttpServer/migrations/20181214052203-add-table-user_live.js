@@ -149,6 +149,54 @@ module.exports = {
       updated_at: DATE
     })
 
+    // collect
+    await queryInterface.createTable('collect', {
+      collectId: {
+        type: INTEGER(20),
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      type: {
+        type: INTEGER(20),
+        allowNull: false,
+      },
+      from_user_id: {
+        type: INTEGER(20),
+        allowNull: false,
+        references: {
+          model: 'user',
+          key: 'id'
+        },
+      },
+      to_user_id: {
+        type: INTEGER(20),
+        allowNull: false,
+        references: {
+          model: 'user',
+          key: 'id'
+        },
+      },
+      article_id: {
+        type: INTEGER(20),
+        allowNull: true,
+        references: {
+          model: 'article',
+          key: 'articleId'
+        },
+      },
+      paint_id: {
+        type: INTEGER(20),
+        allowNull: true,
+        references: {
+          model: 'paint',
+          key: 'paintId'
+        },
+      },
+      created_at: DATE,
+      updated_at: DATE
+    })
+
     // comment
     await queryInterface.createTable('comment', {
       commentId: {
@@ -238,6 +286,7 @@ module.exports = {
     await queryInterface.dropTable('follow')
     await queryInterface.dropTable('comment')
     await queryInterface.dropTable('like')
+    await queryInterface.dropTable('collect')
     await queryInterface.dropTable('paint')
     await queryInterface.dropTable('article')
     await queryInterface.dropTable('user')

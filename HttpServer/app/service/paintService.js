@@ -7,7 +7,9 @@ class PaintService extends Service {
     super(ctx)
     this.ctx = ctx
     this.UserModel = ctx.model.UserModel
-    this.PaintModel = ctx.model.PaintModel
+		this.PaintModel = ctx.model.PaintModel
+		this.LikeModel = ctx.model.LikeModel
+    this.CollectModel = ctx.model.CollectModel			
 	}
 	
 	// 发表
@@ -33,7 +35,14 @@ class PaintService extends Service {
 			include: [{
 				model: this.UserModel,
 				required: false 
-			}]
+			},{
+				model: this.LikeModel,
+				required: false
+			},{
+				model: this.CollectModel,
+				required: false
+			}],
+			order: [['paintId', 'ASC']],
 		})
 
 		return {
@@ -51,7 +60,13 @@ class PaintService extends Service {
 			include: [{
 				model: this.UserModel,
 				required: false 
-      }]
+      },{
+				model: this.LikeModel,
+				required: false
+			},{
+				model: this.CollectModel,
+				required: false
+			}]
 		})
 
 		return {

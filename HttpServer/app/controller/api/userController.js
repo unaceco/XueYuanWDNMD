@@ -48,6 +48,12 @@ class UserController extends Controller {
     this.ctx.body = response
   }
 
+  async getUserInfoById() {
+    const { id } = this.ctx.request.body
+    const response = await this.userService.getUserInfoById(id)
+    this.ctx.body = response
+  }
+
   // 退出
   async logout() {
     this.ctx.session = null

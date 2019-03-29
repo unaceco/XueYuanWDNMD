@@ -46,6 +46,9 @@ module.exports = app => {
     ArticleModel.hasMany(app.model.CommentModel, {
       foreignKey: 'article_id'
     })
+    ArticleModel.hasMany(app.model.CollectModel, {
+      foreignKey: 'article_id'
+    })
 	}
 
   return ArticleModel
