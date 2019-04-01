@@ -43,6 +43,10 @@ module.exports = app => {
   // find by id
   router.post('/api/article/articleId', controller.api.articleController.getArticleById)
 
+  // find all by user id
+  router.post('/api/article/userId', controller.api.articleController.getAllArticlesByUserId)
+
+
   // ------------ 绘画相关接口
   // 发布
   router.post('/api/paint/push', controller.api.paintController.publishPaint)
@@ -51,23 +55,39 @@ module.exports = app => {
   router.get('/api/paint', controller.api.paintController.getAllPaints)
 
   // find by id
-  router.post('/api/article/paintId', controller.api.paintController.getPaintById)
+  router.post('/api/paint/paintId', controller.api.paintController.getPaintById)
+
+  // find by id
+  router.post('/api/paint/userId', controller.api.paintController.getAllPaintsByUserId)
+  
 
   // ------------ 点赞相关
   // change like status
   router.post('/api/like', controller.api.likeController.changeLikeStatus)
 
+  // my love
+  router.post('/api/like/myLove', controller.api.likeController.getAllMyLove)
+
+  
+
   // ------------ 收藏相关
   // change collect status
   router.post('/api/collect', controller.api.collectController.changeCollectStatus)
 
+  // my collect
+  router.post('/api/follow/myCollect', controller.api.collectController.getAllMyCollect)
 
-  // ------------ 收藏相关
+
+  // ------------ 关注相关
   // get follow status
   router.post('/api/follow/find', controller.api.followController.getFollowStatus)
 
   // change follow status
   router.post('/api/follow/change', controller.api.followController.changeFollowStatus)
+
+  // find count
+  router.post('/api/follow/count', controller.api.followController.getMyFollowCount)
+  
   
   // ------------ 评论相关
   // get all comments
@@ -75,5 +95,17 @@ module.exports = app => {
 
   // write comments
   router.post('/api/comments/write', controller.api.commentController.writeComments)
+
+
+  // ------------- 消息相关
+  // get all comments
+  router.post('/api/message/comments', controller.api.messageController.getAllComments)
+
+  // get all comments
+  router.post('/api/message/likes', controller.api.messageController.getAllLikes)
+
+  // get all follow
+  router.post('/api/message/follows', controller.api.messageController.getAllFollow)
+
 
 }

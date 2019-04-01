@@ -13,8 +13,8 @@
 				</el-menu>
 			</div>
 			<!-- search -->
-			<div class="searchDiv">
-				<el-input v-model="search" placeholder="请输入内容"  suffix-icon="el-icon-search"></el-input>
+			<div class="searchDiv" >
+				<!-- <el-input v-model="search" placeholder="请输入内容"  suffix-icon="el-icon-search"></el-input> -->
 			</div>
 			<!-- 登录 注册 -->
 			<div class="signDiv" v-if="!userInfo">
@@ -169,6 +169,7 @@ export default {
 				sessionStorage.removeItem('userInfo')
 				this.userInfo = null
 				this.$message.success(result.data.msg)
+				this.$router.push('/')
 			}else {
 				this.$message.error(result.data.msg)
 			}
@@ -219,6 +220,10 @@ export default {
 				height: 50px;
 				width: 50px;
 			}
+		}
+
+		.searchDiv {
+			width: 200px;
 		}
 		
 		.signDiv {

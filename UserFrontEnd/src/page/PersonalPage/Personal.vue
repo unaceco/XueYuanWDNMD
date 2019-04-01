@@ -12,25 +12,33 @@
 					name
 				</div>
 				<div class="relationship">
-					<span>关注  10</span>
-					<span>粉丝  10</span>
-					<el-button type="primary" plain>关注</el-button>
-					<el-button type="primary" plain>取消关注</el-button>
+					<span>关注  {{lookCount}}</span>
+					<span>粉丝  {{followCount}}</span>
 				</div>
 			</div>
 		</div>
 		<!-- main -->
 		<div class="main">
 			<!-- tabs -->
-			<el-tabs v-model="tabsActiveName" @tab-click="handleClick">
+			<el-tabs v-model="tabsActiveName">
 				<el-tab-pane label="我的文章" name="first">
 					<div class="tabArticle">
-						<Article v-for="i in 4" :key="i"/>
+						<div v-for="(item, index) in articleList" :key="index">
+							<Article 
+								:info="articleList[index]"
+								v-on:reloadData="reloadData"
+							/>
+						</div>
 					</div>
 				</el-tab-pane>
 				<el-tab-pane label="我的画板" name="second">
 					<div class="tabPaint">
-						<Paint v-for="i in 4" :key="i" />
+						<div v-for="(item, index) in paintList" :key="index">
+							<Paint 
+								:info="paintList[index]"
+								v-on:reloadData="reloadData"
+							/>
+						</div>
 					</div>
 				</el-tab-pane>
 				<el-tab-pane label="我的喜欢" name="third">
@@ -38,12 +46,22 @@
 						<el-tabs type="card">
 							<el-tab-pane label="文章">
 								<div class="tabArticle">
-									<Article v-for="i in 4" :key="i" />
+									<div v-for="(item, index) in loveArticleList" :key="index">
+										<Article 
+											:info="loveArticleList[index]"
+											v-on:reloadData="reloadData"
+										/>
+									</div>
 								</div>
 							</el-tab-pane>
 							<el-tab-pane label="图片">
 								<div class="tabPaint">
-									<Paint v-for="i in 4" :key="i"/>
+									<div v-for="(item, index) in lovePaintList" :key="index">
+										<Paint 
+											:info="lovePaintList[index]"
+											v-on:reloadData="reloadData"
+										/>
+									</div>
 								</div>
 							</el-tab-pane>
 						</el-tabs>
@@ -54,12 +72,22 @@
 						<el-tabs type="card">
 							<el-tab-pane label="文章">
 								<div class="tabArticle">
-									<Article v-for="i in 4" :key="i"/>
+									<div v-for="(item, index) in collectArticleList" :key="index">
+										<Article 
+											:info="collectArticleList[index]"
+											v-on:reloadData="reloadData"
+										/>
+									</div>
 								</div>
 							</el-tab-pane>
 							<el-tab-pane label="图片">
 								<div class="tabPaint">
-									<Paint v-for="i in 4" :key="i"/>
+									<div v-for="(item, index) in collectPaintList" :key="index">
+										<Paint 
+											:info="collectPaintList[index]"
+											v-on:reloadData="reloadData"
+										/>
+									</div>
 								</div>
 							</el-tab-pane>
 						</el-tabs>
@@ -84,12 +112,90 @@ export default {
 	},
 	data () {
 		return {
-			tabsActiveName: 'first'
+			tabsActiveName: 'first',
+			articleList: [],
+			paintList: [],
+			loveArticleList: [],
+			lovePaintList: [],
+			collectArticleList: [],
+			collectPaintList: [],
+			followCount: 0,
+			lookCount: 0,
 		};
 	},
+	async created () {
+		await this.reloadData()
+	},
 	methods: {
-		handleClick(tab, event) {
-			console.log(tab, event);
+		async reloadData() {
+			this.articleList = []
+			this.paintList = [],
+			this.loveArticleList = []
+			this.lovePaintList = []
+			this.collectArticleList = []
+			this.collectPaintList = []
+			await this.getAllArticles()
+			await this.getAllPaints()
+			await this.getAllMyLove()
+			await this.getAllMyCollect()
+			await this.getMyFollow()
+		},
+		async getAllArticles() {
+			const result = await this.$request.post('/api/article/userId', {
+				user_id: JSON.parse(sessionStorage.getItem('userInfo')).id
+			})
+
+			if (result.data.success) {
+				this.articleList = result.data.data
+			}
+		},
+		async getAllPaints() {
+			const result = await this.$request.post('/api/paint/userId', {
+				user_id: JSON.parse(sessionStorage.getItem('userInfo')).id				
+			})
+
+			if (result.data.success) {
+				this.paintList = result.data.data
+			}
+		},
+		async getAllMyLove() {
+			const result = await this.$request.post('/api/like/myLove', {
+				user_id: JSON.parse(sessionStorage.getItem('userInfo')).id				
+			})
+
+			if (result.data.success) {
+				result.data.data.forEach(x => {
+					if (x.article) {
+						this.loveArticleList.push(x.article)
+					}else if (x.paint) {
+						this.lovePaintList.push(x.paint)
+					}
+				});
+			}
+		},
+		async getAllMyCollect() {
+			const result = await this.$request.post('/api/follow/myCollect', {
+				user_id: JSON.parse(sessionStorage.getItem('userInfo')).id								
+			})
+
+			if (result.data.success) {
+				result.data.data.forEach(x => {
+					if (x.article) {
+						this.collectArticleList.push(x.article)
+					}else if (x.paint) {
+						this.collectPaintList.push(x.paint)
+					}
+				});
+			}
+		},
+		async getMyFollow() {
+			const result = await this.$request.post('/api/follow/count', {
+				user_id: JSON.parse(sessionStorage.getItem('userInfo')).id								
+			})
+			if (result.data.success) {
+				this.followCount = result.data.data.followToMe
+				this.lookCount = result.data.data.followFromMe
+			}
 		}
 	}
 }

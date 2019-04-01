@@ -26,6 +26,12 @@ class PaintController extends Controller {
 		this.ctx.body = response
 	}
 
+	async getAllPaintsByUserId() {
+		const { user_id } = this.ctx.request.body
+		const response = await this.paintService.getAllPaintsByUserId(user_id)
+		this.ctx.body = response
+	}
+
 }
 
 module.exports = PaintController

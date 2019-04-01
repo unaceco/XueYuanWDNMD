@@ -26,6 +26,12 @@ class ArticleController extends Controller {
 		this.ctx.body = response
 	}
 
+	async getAllArticlesByUserId() {
+		const { user_id } = this.ctx.request.body
+		const response = await this.articleService.getAllArticlesByUserId(user_id)
+		this.ctx.body = response
+	}
+
 
 }
 

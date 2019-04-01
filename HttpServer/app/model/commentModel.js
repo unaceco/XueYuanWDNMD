@@ -34,10 +34,12 @@ module.exports = app => {
 	
 	CommentModel.associate = function() {
 		CommentModel.belongsTo(app.model.UserModel, {
-      foreignKey: 'from_user_id'
+      foreignKey: 'from_user_id',
+      as: 'from_user'
 		})
 		CommentModel.belongsTo(app.model.UserModel, {
-      foreignKey: 'to_user_id'
+      foreignKey: 'to_user_id',
+      as: 'to_user'
 		})
 		CommentModel.belongsTo(app.model.ArticleModel, {
       foreignKey: 'article_id'

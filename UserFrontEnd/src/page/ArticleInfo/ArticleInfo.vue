@@ -9,7 +9,7 @@
 				<div>
 					{{info.user.nickname}}
 				</div>
-				<div class="options">
+				<div class="options" v-if="this.userInfo.id !== this.info.user.id">
 					<el-button v-if="isFollow" @click="changeFollowStatus" type="primary" size="mini" >已关注</el-button>
 					<el-button v-else @click="changeFollowStatus" type="primary" size="mini" icon="el-icon-circle-plus-outline">关注</el-button>
 				</div>
@@ -77,7 +77,7 @@ export default {
 			},
 			followInfo: {},
 			commentsList: [],
-			userInfo: {}
+			userInfo: {},
 		};
 	},
 	computed: {
@@ -99,7 +99,7 @@ export default {
 		},
 		isFollow() {
 			return this.followInfo
-		}
+		},
 	},
 	async created () {
 		await this.getInfoById()

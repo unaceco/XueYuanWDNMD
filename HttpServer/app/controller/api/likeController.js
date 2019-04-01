@@ -15,6 +15,12 @@ class LikeController extends Controller {
 		this.ctx.body = response
 	}
 
+	async getAllMyLove() {
+		const { user_id } = this.ctx.request.body
+		const response = await this.likeService.getAllMyLove(user_id)
+		this.ctx.body = response
+	}
+
 }
 
 module.exports = LikeController

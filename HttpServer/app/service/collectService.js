@@ -6,6 +6,10 @@ class CollectService extends Service {
   constructor(ctx) {
     super(ctx)
     this.ctx = ctx
+    this.UserModel = ctx.model.UserModel
+    this.ArticleModel = ctx.model.ArticleModel
+    this.PaintModel = ctx.model.PaintModel
+		this.LikeModel = ctx.model.LikeModel
     this.CollectModel = ctx.model.CollectModel
 	}
 
@@ -79,6 +83,50 @@ class CollectService extends Service {
 			msg: '取消收藏成功',
 			result
 		}
+	}
+
+	// 我的喜欢
+	async getAllMyCollect(user_id) {
+		const result = await this.CollectModel.findAll({
+			where: {
+				from_user_id: user_id
+			},
+			include: [{
+				model: this.ArticleModel,
+				required: false,
+				include: [{
+					model: this.UserModel,
+					required: false
+				},{
+					model: this.LikeModel,
+					required: false
+				},{
+					model: this.CollectModel,
+					required: false
+				}]
+			},{
+				model: this.PaintModel,
+				required: false,
+				include: [{
+					model: this.UserModel,
+					required: false
+				},{
+					model: this.LikeModel,
+					required: false
+				},{
+					model: this.CollectModel,
+					required: false
+				}]
+			}],
+		})
+
+		return {
+			success: true,
+			data: result,
+			msg: '查找我的收藏成功'
+		}
+
+
 	}
 
 }

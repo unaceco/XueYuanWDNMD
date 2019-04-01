@@ -94,10 +94,12 @@ module.exports = app => {
 
   UserModel.associate = function () {
     UserModel.hasMany(app.model.LikeModel, {
-      foreignKey: 'from_user_id'
+      foreignKey: 'from_user_id',
+      as: 'like_from_user'
     })
     UserModel.hasMany(app.model.LikeModel, {
-      foreignKey: 'to_user_id'
+      foreignKey: 'to_user_id',
+      as: 'like_to_user'
     })
 
     UserModel.hasMany(app.model.CollectModel, {
@@ -112,10 +114,21 @@ module.exports = app => {
     })
 
     UserModel.hasMany(app.model.FollowModel, {
-      foreignKey: 'from_user_id'
+      foreignKey: 'from_user_id',
+      as: 'follow_from_user'
     })
     UserModel.hasMany(app.model.FollowModel, {
-      foreignKey: 'to_user_id'
+      foreignKey: 'to_user_id',
+      as: 'to_from_user'
+    })
+
+    UserModel.hasMany(app.model.CommentModel, {
+      foreignKey: 'from_user_id',
+      as: 'from_user'
+    })
+    UserModel.hasMany(app.model.CommentModel, {
+      foreignKey: 'to_user_id',
+      as: 'to_user'
     })
   }
   return UserModel

@@ -15,6 +15,11 @@ class CollectController extends Controller {
 		this.ctx.body = response
 	}
 
+	async getAllMyCollect() {
+		const { user_id } = this.ctx.request.body
+		const response = await this.collectService.getAllMyCollect(user_id)
+		this.ctx.body = response
+	}
 }
 
 module.exports = CollectController

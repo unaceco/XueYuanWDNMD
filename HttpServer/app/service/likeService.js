@@ -8,7 +8,9 @@ class LikeService extends Service {
     this.ctx = ctx
     this.UserModel = ctx.model.UserModel
     this.ArticleModel = ctx.model.ArticleModel
-    this.LikeModel = ctx.model.LikeModel
+    this.PaintModel = ctx.model.PaintModel
+		this.LikeModel = ctx.model.LikeModel
+    this.CollectModel = ctx.model.CollectModel
 	}
 
 	// 点赞
@@ -81,6 +83,50 @@ class LikeService extends Service {
 			msg: '取消点赞成功',
 			result
 		}
+	}
+
+	// 我的喜欢
+	async getAllMyLove(user_id) {
+		const result = await this.LikeModel.findAll({
+			where: {
+				from_user_id: user_id
+			},
+			include: [{
+				model: this.ArticleModel,
+				required: false,
+				include: [{
+					model: this.UserModel,
+					required: false
+				},{
+					model: this.LikeModel,
+					required: false
+				},{
+					model: this.CollectModel,
+					required: false
+				}]
+			},{
+				model: this.PaintModel,
+				required: false,
+				include: [{
+					model: this.UserModel,
+					required: false
+				},{
+					model: this.LikeModel,
+					required: false
+				},{
+					model: this.CollectModel,
+					required: false
+				}]
+			}],
+		})
+
+		return {
+			success: true,
+			data: result,
+			msg: '查找我的喜欢成功'
+		}
+
+
 	}
 
 }

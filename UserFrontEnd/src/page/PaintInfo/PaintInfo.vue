@@ -8,7 +8,7 @@
 				<div>
 					{{info.user.nickname}}
 				</div>
-				<div class="options">
+				<div class="options" v-if="this.userInfo.id !== this.info.user.id">
 					<el-button v-if="isFollow" @click="changeFollowStatus" type="primary" size="mini" >已关注</el-button>
 					<el-button v-else @click="changeFollowStatus" type="primary" size="mini" icon="el-icon-circle-plus-outline">关注</el-button>
 				</div>
@@ -74,6 +74,7 @@ export default {
 			},
 			followInfo: {},
 			commentsList: [],
+			userInfo: {},
 		};
 	},
 	computed: {
@@ -101,10 +102,11 @@ export default {
 		await this.getInfoById()
 		await this.getFollowStatus()
 		await this.getAllComments()
+		this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
 	},
 	methods: {
 		async getInfoById() {
-			const result = await this.$request.post('/api/article/paintId', {
+			const result = await this.$request.post('/api/paint/paintId', {
 				paintId: this.$route.params.paintId
 			})
 			this.info = result.data.data

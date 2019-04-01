@@ -21,6 +21,12 @@ class FollowController extends Controller {
 		this.ctx.body = response
 	}
 
+	async getMyFollowCount() {
+		const { user_id } = this.ctx.request.body
+		const response = await this.followService.getMyFollowCount(user_id)
+		this.ctx.body = response
+	}
+
 }
 
 module.exports = FollowController

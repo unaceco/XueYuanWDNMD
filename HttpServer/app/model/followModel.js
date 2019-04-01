@@ -25,10 +25,12 @@ module.exports = app => {
 	
 	FollowModel.associate = function() {
 		FollowModel.belongsTo(app.model.UserModel, {
-      foreignKey: 'from_user_id'
+      foreignKey: 'from_user_id',
+      as: 'follow_from_user'
 		})
 		FollowModel.belongsTo(app.model.UserModel, {
-      foreignKey: 'to_user_id'
+      foreignKey: 'to_user_id',
+      as: 'to_from_user'
 		})
 	}
 

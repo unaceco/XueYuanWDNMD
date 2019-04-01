@@ -76,6 +76,30 @@ class PaintService extends Service {
 		}
 	}
 
+	async getAllPaintsByUserId(user_id) {
+		const data = await this.PaintModel.findAll({
+			where: {
+				user_id
+			},
+			include: [{
+				model: this.UserModel,
+				required: false 
+			},{
+				model: this.LikeModel,
+				required: false
+			},{
+				model: this.CollectModel,
+				required: false
+			}],
+		})
+
+		return {
+			success: true,
+			data,
+			msg: '查找用户所有文章成功'
+		}
+	}
+
 }
 
 module.exports = PaintService
