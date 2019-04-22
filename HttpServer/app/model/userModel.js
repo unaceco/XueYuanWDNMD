@@ -38,6 +38,11 @@ module.exports = app => {
       type: STRING(200),
       allowNull: true,
     },
+    role: {
+      type: INTEGER(3),
+      allowNull: false,
+      defaultValue: 1, // -1为封禁用户,1为普通用户,2为管理员
+    },
   }, {
     created_at: 'created_at',
     updated_at: 'updated_at',
@@ -56,7 +61,7 @@ module.exports = app => {
     return await this.findAll({
       limit,
       offset,
-      attributes: ['id', 'useraccount', 'nickname', 'avatar', 'created_at', 'updated_at'],
+      attributes: ['id', 'useraccount', 'nickname', 'avatar', 'role', 'created_at', 'updated_at'],
     })
   }
 
@@ -65,7 +70,7 @@ module.exports = app => {
       where: {
         id: userID,
       },
-      attributes: ['id', 'useraccount', 'nickname', 'avatar', 'created_at', 'updated_at'],
+      attributes: ['id', 'useraccount', 'nickname', 'avatar','role', 'created_at', 'updated_at'],
     })
   }
 
@@ -88,7 +93,18 @@ module.exports = app => {
       },
       limit,
       offset,
-      attributes: ['id', 'useraccount', 'nickname', 'avatar', 'created_at', 'updated_at'],
+      attributes: ['id', 'useraccount', 'nickname', 'avatar', 'role', 'created_at', 'updated_at'],
+    })
+  }
+
+  UserModel.findAllUserByRole = async function (limit, offset, role) {
+    return await this.findAll({
+      where: {
+        role
+      },
+      limit,
+      offset,
+      attributes: ['id', 'useraccount', 'nickname', 'avatar', 'role', 'created_at', 'updated_at'],
     })
   }
 

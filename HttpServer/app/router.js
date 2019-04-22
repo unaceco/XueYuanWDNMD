@@ -32,8 +32,31 @@ module.exports = app => {
   // 修改个人信息
   router.put('/api/user/modifyInfo', controller.api.userController.modifyInfo)
 
+  // ---------------  admin
+  // 查询全部用户
+  router.get('/api/admin/userList', controller.api.userController.getUserList)
 
-  // ------------ 文章相关接口
+  // 根据 userId 查找用户
+  router.post('/api/admin/userById', controller.api.userController.getUserById)
+
+  // 根据 user role 查找用户
+  router.post('/api/admin/userByRole', controller.api.userController.getUserByRole)
+
+  // 根据 nickname || account 查找用户
+  router.post('/api/admin/userByNickname', controller.api.userController.getUserByNickNameOrAccount)
+
+  // 修改用户权限
+  router.put('/api/admin/changeUserRole', controller.api.userController.changeUserRole)
+
+  // 删除用户
+  router.delete('/api/admin/deleteUserById', controller.api.userController.deleteUserById)
+
+  // 管理员更新用户数据
+  router.put('/api/admin/updateUserById', controller.api.userController.updateUserById)
+
+
+
+  // ------------ 文章相关接口 
   // 发布
   router.post('/api/article/push', controller.api.articleController.writeArticle)
 

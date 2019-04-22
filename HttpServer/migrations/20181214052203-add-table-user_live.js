@@ -33,6 +33,11 @@ module.exports = {
         type: STRING(200),
         allowNull: true,
       },
+      role: {
+        type: INTEGER(3),
+        allowNull: false,
+        defaultValue: 0, // -1为封禁用户,1为普通用户,2为管理员
+      },
       created_at: DATE,
       updated_at: DATE
     })
