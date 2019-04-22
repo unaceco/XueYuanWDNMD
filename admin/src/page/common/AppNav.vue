@@ -30,6 +30,11 @@
             name: '用户管理',
           },
           {
+            icon: 'el-icon-menu',
+            route: '/articlemanage',
+            name: '文章管理',
+          },
+          {
             icon: 'el-icon-info',
             route: '/personal',
             name: '个人中心'

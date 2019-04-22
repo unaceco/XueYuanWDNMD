@@ -15,6 +15,10 @@ import Personal from '@/page/System/PersonalCenter'
 import UserManage from '@/page/User/UserManage'
 import UserInfo from '@/page/User/UserInfo'
 
+import ArticleManage from '@/page/Article/ArticleManage'
+import ArticleInfo from '@/page/Article/ArticleInfo'
+
+
 
 Vue.use(Router)
 
@@ -54,6 +58,24 @@ const router = new Router({
           path: 'userinfo/:userid',
           name: '用户信息详情',
           component: UserInfo,
+          meta: {
+            requireAuth: true,
+            adminAuth: true
+          },
+        },
+        {
+          path: 'articlemanage',
+          name: '文章管理',
+          component: ArticleManage,
+          meta: {
+            requireAuth: true,
+            adminAuth: true
+          },
+        },
+        {
+          path: 'articleinfo/:articleid',
+          name: '文章信息详情',
+          component: ArticleInfo,
           meta: {
             requireAuth: true,
             adminAuth: true

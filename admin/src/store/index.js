@@ -46,9 +46,9 @@ const store = new Vuex.Store({
     save_detail_userInfo(state, info) {
       this.state.userInfo = info;
     },
-    // 设置直播分类详情信息
-    save_detail_liveGroupInfo(state, info) {
-      this.state.liveGroupInfo = info;
+    // 设置文章详情信息
+    save_detail_articleInfo(state, info) {
+      this.state.articleInfo = info;
     }
   }
 });
