@@ -9,6 +9,7 @@ Vue.config.productionTip = false
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/reset.css'
+import './assets/editor.css';
 
 import axios from 'axios'
 

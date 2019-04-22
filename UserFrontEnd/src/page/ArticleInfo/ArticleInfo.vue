@@ -19,7 +19,9 @@
 		<!-- content -->
 		<div class="content">
 			<span> 文章详情  id: {{$route.params.articleId}}</span>
-			<div v-html="info.content">
+			<div id="quill-container" class="ql-container ql-snow">
+				<div class="contentBlock ql-editor" data-gramm="false" contenteditable="false" v-html="info.content">
+				</div>
 			</div>
 		</div>
 
@@ -189,6 +191,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .articleInfo {
 	margin: 0 auto;
 	width: 750px;
@@ -218,6 +221,13 @@ export default {
 
 	.content {
 		line-height: 25px;
+
+		.contentBlock {
+			width: 100%;
+			min-height: 281px;
+			padding: 12px 15px;
+			line-height: 1.42;
+		}
 	}
 
 	.uOptions {
