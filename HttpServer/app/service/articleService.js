@@ -102,6 +102,69 @@ class ArticleService extends Service {
 		}
 	}
 
+	async getAdminArticleList(limit, offset) {
+		const data = await this.ArticleModel.findAll({
+			limit,
+      offset: limit * offset,
+			include: [{
+				model: this.UserModel,
+				required: false 
+      }],
+		})
+
+		const count = await this.ArticleModel.count()
+
+		return { 
+			success: true,
+			msg: '查询文章列表成功', 
+			data,
+			count
+		}
+	}
+
+  // 模糊查询
+  async getArticleByTitle(limit, offset, title) {
+    const data = await this.ArticleModel.findAll({
+			limit,
+			offset: limit * offset,
+			where: {
+				title: {
+					$like: `%${title}%`
+				}
+			},
+			include: [{
+				model: this.UserModel,
+				required: false 
+      }],
+		})
+    const count = await this.ArticleModel.count({
+			where: {
+				title: {
+					$like: `%${title}%`
+				}
+			},
+    })
+
+    return {
+      success: true,
+      msg: '查询成功',
+      count,
+      data
+    }
+  }
+
+	// 删除
+	async deleteArticleById(id) {
+		const data = await this.ArticleModel.destroy({
+			where: {
+				articleId: id
+			}
+		})
+		return {
+			success: data !== 0 ? true : false,
+			msg: data !== 0 ? '删除成功' : '删除失败',
+		}
+	}
 
 }
 

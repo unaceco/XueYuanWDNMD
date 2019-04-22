@@ -32,6 +32,26 @@ class ArticleController extends Controller {
 		this.ctx.body = response
 	}
 
+	async getAdminArticleList() {
+    const { limit = 10, offset = 0 } = this.ctx.request.query
+		const response = await this.articleService.getAdminArticleList(limit, offset)
+		this.ctx.body = response
+	}
+
+	async getArticleByTitle() {
+		const { limit = 10, offset = 0 } = this.ctx.request.query
+		const { title } = this.ctx.request.body
+		const response = await this.articleService.getArticleByTitle(limit, offset, title)
+		this.ctx.body = response
+	}
+
+	async deleteArticleById() {
+		const { articleId } = this.ctx.request.body
+		const response = await this.articleService.deleteArticleById(articleId)
+		this.ctx.body = response
+	}
+	
+
 
 }
 

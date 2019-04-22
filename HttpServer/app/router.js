@@ -53,9 +53,17 @@ module.exports = app => {
 
   // 管理员更新用户数据
   router.put('/api/admin/updateUserById', controller.api.userController.updateUserById)
+  
+  // 管理员更新用户数据
+  router.get('/api/admin/getAdminArticleList', controller.api.articleController.getAdminArticleList)
+  
+
+  router.post('/api/admin/getArticleByTitle', controller.api.articleController.getArticleByTitle)
+
+  router.delete('/api/admin/deleteArticleById', controller.api.articleController.deleteArticleById)
 
 
-
+  
   // ------------ 文章相关接口 
   // 发布
   router.post('/api/article/push', controller.api.articleController.writeArticle)
