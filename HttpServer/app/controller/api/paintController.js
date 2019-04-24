@@ -32,6 +32,25 @@ class PaintController extends Controller {
 		this.ctx.body = response
 	}
 
+	
+	async adminGetAllPaints() {
+		const response = await this.paintService.adminGetAllPaints()
+		this.ctx.body = response
+	}
+
+	async deletePaintById() {
+		const { paintId } = this.ctx.request.body
+		const response = await this.paintService.deletePaintById(paintId)
+		this.ctx.body = response
+	}
+
+	async getPaintByTitle() {
+		const { title } = this.ctx.request.body
+		const response = await this.paintService.getPaintByTitle(title)
+		this.ctx.body = response
+	}
+	
+	
 }
 
 module.exports = PaintController

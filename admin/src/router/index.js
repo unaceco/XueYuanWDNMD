@@ -18,6 +18,7 @@ import UserInfo from '@/page/User/UserInfo'
 import ArticleManage from '@/page/Article/ArticleManage'
 import ArticleInfo from '@/page/Article/ArticleInfo'
 
+import PaintManage from '@/page/Paint/PaintManage'
 
 
 Vue.use(Router)
@@ -43,7 +44,7 @@ const router = new Router({
           meta: {
             requireAuth: true,
             adminAuth: true
-          },
+          }
         },
         {
           path: 'usermanage',
@@ -76,6 +77,15 @@ const router = new Router({
           path: 'articleinfo/:articleid',
           name: '文章信息详情',
           component: ArticleInfo,
+          meta: {
+            requireAuth: true,
+            adminAuth: true
+          },
+        },
+        {
+          path: 'paintmanage',
+          name: '绘画管理',
+          component: PaintManage,
           meta: {
             requireAuth: true,
             adminAuth: true

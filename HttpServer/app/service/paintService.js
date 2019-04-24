@@ -100,6 +100,62 @@ class PaintService extends Service {
 		}
 	}
 
+	async adminGetAllPaints() {
+		const result = await this.PaintModel.findAll({
+			include: [{
+				model: this.UserModel,
+				required: false 
+			},{
+				model: this.LikeModel,
+				required: false
+			},{
+				model: this.CollectModel,
+				required: false
+			}],
+			order: [['paintId', 'ASC']],
+		})
+
+		return {
+			success: true,
+			msg: '查找成功',
+			data: result
+		}
+	}
+
+	// 删除
+	async deletePaintById(id) {
+		const data = await this.PaintModel.destroy({
+			where: {
+				paintId: id
+			}
+		})
+		return {
+			success: data !== 0 ? true : false,
+			msg: data !== 0 ? '删除成功' : '删除失败',
+		}
+	}
+
+  // 模糊查询
+  async getPaintByTitle(title) {
+    const data = await this.PaintModel.findAll({
+			where: {
+				title: {
+					$like: `%${title}%`
+				}
+			},
+			include: [{
+				model: this.UserModel,
+				required: false 
+      }],
+		})
+
+    return {
+      success: true,
+      msg: '查询成功',
+      data
+    }
+  }
+
 }
 
 module.exports = PaintService

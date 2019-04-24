@@ -17,18 +17,77 @@
     data() {
       return {
         lineChartData: {
-          visitData: [1,2,3,4,5],
-          liveData: [6,7,8,9,0],
-          timeData: ['1-1', '1-2', '1-3', '1-4', '1-5']
+          userData: [],
+          articleData: [],
+          paintData: [],
+          timeData: []
         },
         loading: false,
+        userList: [],
+        articleList: [],
+        paintList: []
       };
     },
     async created() {
+      await this.getUserCount()
+      await this.getArticleCount()
+      await this.getPaintCount()
+
+      for (let i = 6; i >= 0; i--) {
+        this.lineChartData.timeData.push(moment().subtract('days', i).format('YYYY-MM-DD'))
+      }
+
+      let userCount = 0
+      let articleCount = 0
+      let paintCount = 0
+
+      this.lineChartData.timeData.map(x => {
+        // user
+        userCount = 0
+        this.userList.map(y => {
+          if (moment(y.created_at).isBefore(x)) {
+            userCount ++
+          }
+        })
+        this.lineChartData.userData.push(userCount)
+
+        // article
+        articleCount = 0
+        this.articleList.map(ar => {
+          if (moment(ar.created_at).isBefore(x)) {
+            articleCount ++
+          }
+        })
+        this.lineChartData.articleData.push(articleCount)
+
+        // paint
+        paintCount = 0
+        this.paintList.map(pa => {
+          if (moment(pa.created_at).isBefore(x)) {
+            paintCount ++
+          }
+        })
+        this.lineChartData.paintData.push(paintCount)
+
+      })
+
+
+      
 
     },
     methods: {
-      
+      async getUserCount() {
+        const result = await this.$request('/api/admin/userList')
+        this.userList = result.data
+      },
+      async getArticleCount() {
+        const result = await this.$request('/api/admin/getAdminArticleList')
+        this.articleList = result.data
+      },
+      async getPaintCount() {
+        const result = await this.$request('/api/admin/paint')
+        this.paintList = result.data
+      }
     }
   }
 

@@ -74,7 +74,7 @@ export default {
         this.__resizeHandler()
       }
     },
-    setOptions({ visitData, liveData } = {}) {
+    setOptions({ userData, articleData, paintData } = {}) {
       this.chart.setOption({
         xAxis: {
           data: this.chartData.timeData,
@@ -108,10 +108,10 @@ export default {
           }
         },
         legend: {
-          data: ['系统人数', '直播人数']
+          data: ['用户人数', '文章数量', '绘画数量']
         },
         series: [{
-          name: '系统人数', 
+          name: '用户人数', 
           itemStyle: {
             normal: {
               color: '#FF005A',
@@ -123,12 +123,12 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: visitData,
+          data: userData,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
         },
         {
-          name: '直播人数',
+          name: '文章数量',
           itemStyle: {
             normal: {
               color: '#3888fa',
@@ -143,7 +143,27 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: liveData,
+          data: articleData,
+          animationDuration: 2800,
+          animationEasing: 'quadraticOut'
+        },
+        {
+          name: '绘画数量',
+          itemStyle: {
+            normal: {
+              color: '#3988fa',
+              lineStyle: {
+                color: '#3988fa',
+                width: 2
+              },
+              // areaStyle: {
+              //   color: '#f3f8ff'
+              // }
+            }
+          },
+          smooth: true,
+          type: 'line',
+          data: articleData,
           animationDuration: 2800,
           animationEasing: 'quadraticOut'
         }]

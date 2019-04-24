@@ -63,6 +63,13 @@ module.exports = app => {
   router.delete('/api/admin/deleteArticleById', controller.api.articleController.deleteArticleById)
 
 
+  // find all
+  router.get('/api/admin/paint', controller.api.paintController.adminGetAllPaints)
+
+  router.delete('/api/admin/deletepaint', controller.api.paintController.deletePaintById)
+
+  router.post('/api/admin/getPaintByTitle', controller.api.paintController.getPaintByTitle)
+
   
   // ------------ 文章相关接口 
   // 发布

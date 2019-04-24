@@ -35,6 +35,11 @@
             name: '文章管理',
           },
           {
+            icon: 'el-icon-menu',
+            route: '/paintmanage',
+            name: '绘画管理',
+          },
+          {
             icon: 'el-icon-info',
             route: '/personal',
             name: '个人中心'
